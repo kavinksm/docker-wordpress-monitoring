@@ -1,0 +1,8 @@
+# Env based parameters are set
+instance_name: ansible-demo-dev
+region: us-east-1
+keypair: ec2-one 
+image_id: ami-4b133c5d
+type: t2.nano
+security_groups: sg-4726353f
+subnet_id: subnet-7c40ce57

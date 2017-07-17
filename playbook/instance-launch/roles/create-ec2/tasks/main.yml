@@ -1,0 +1,16 @@
+- name: create ec2 instance
+  ec2:
+      key_name: "{{ keypair }}"
+      region: "{{ region }}"
+      instance_type: "{{ type }}"
+      image: "{{ image_id }}"
+      group_id: "{{ security_groups }}"
+      vpc_subnet_id: "{{ subnet_id }}"
+      assign_public_ip: no
+      instance_tags:
+          Name: "{{ instance_name }}"
+      volumes:
+        - device_name: /dev/sda1
+          volume_type: standard
+          volume_size: 8
+          delete_on_termination: true
