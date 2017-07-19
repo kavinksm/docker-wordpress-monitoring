@@ -1,0 +1,38 @@
+- name: Create Launch configuration
+  ec2_lc:
+    name: "{{ lc_name }}"
+    image_id: "{{ image_id }}"
+    key_name: "{{ keypair }}"
+    region: "{{ region }}"
+    security_groups: "{{ security_groups }}"
+    instance_type: "{{ type }}"
+    assign_public_ip: yes
+    user_data: |
+               #!/bin/sh
+               sudo apt-get update
+               wget -qO- https://get.docker.com/ | sh
+               sudo usermod -aG docker $(whoami)
+               sudo apt-get -y install python-pip
+               sudo pip install docker-compose
+               sudo apt-get install git
+               mkdir -p /docker/
+               git clone https://github.com/kavinksm/docker-wordpress-monitoring.git /docker/
+    volumes:
+      - device_name: /dev/sda1
+        volume_type: standard
+        volume_size: 8
+        delete_on_termination: true
+
+- name: Create Auto scaling group
+  ec2_asg:
+    name: "{{ asg_name }}"
+    launch_config_name: "{{ lc_name }}"
+    region: "{{ region }}"
+    vpc_zone_identifier: "{{ asg_subnet_id }}"
+    availability_zones: "{{ asg_az }}"
+    health_check_period: 60
+    health_check_type: EC2
+    replace_all_instances: yes
+    min_size: 0
+    max_size: 0
+    desired_capacity: 0
