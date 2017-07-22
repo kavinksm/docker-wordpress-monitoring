@@ -31,7 +31,7 @@
   
 - name: Install linux image 
   apt: 
-    name: "linux-image-extra-{{ uname.stdout }}"
+    name: linux-image-extra-3.13.0-121-generic
     state: present
 
 - name: Install linux image 
@@ -47,7 +47,7 @@
   apt: 
     name: "{{ item }}"
     state: installed
-    with_items:
+  with_items:
       - apt-transport-https
       - ca-certificates
       - curl
@@ -61,14 +61,14 @@
   register: keyfp
 
 - name: Update repo
-  command: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  command: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu trusty stable"
 
 - name: Update OS
   apt: 
     update_cache: yes
 
 - name: Install docker ce
-  command: sudo apt-get install docker-ce
+  command: sudo apt-get install docker-ce -y
 
 #http://docs.ansible.com/ansible/latest/service_module.html
 - name: Start docker service
