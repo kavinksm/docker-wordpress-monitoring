@@ -1,0 +1,89 @@
+#- name: Install git
+#  apt:
+#    name: git
+#    state: latest
+
+#- name: clone git repository
+#  git:
+#    repo: "{{ gitrepo }}"
+#    dest: "{{ clonepath }}"
+#    version: "{{ branchname }}"
+
+- copy:
+    src: "{{ playbook_dir }}/files/install.sh"
+    dest: /docker/install-docker.sh
+    owner: root
+    group: root
+    mode: 0775
+
+- name: Execute Shell script
+  shell: /docker/install-docker.sh >> output.log
+
+#https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
+
+- name: Update OS
+  apt: 
+    update_cache: yes
+
+- name: Get kernel release
+  shell: uname -r
+  register: uname
+  
+- name: Install linux image 
+  apt: 
+  name: linux-image-extra-{{ uname.stdout }}
+  state: present
+
+- name: Install linux image 
+  apt: 
+  name: linux-image-extra-virtual
+  state: present
+    
+- name: Update the machine
+  apt: 
+    update_cache: yes
+
+- name: allow apt to use a repository over HTTPS
+  apt: 
+    name: {{item}} 
+    state: installed
+    with_items:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
+
+- name: Add the gpg key
+  command: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+- name: Check gpg key
+  command: sudo apt-key fingerprint 0EBFCD88
+  register: keyfp
+
+- name: Update repo
+  command: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+- name: Update OS
+  apt: 
+    update_cache: yes
+
+- name: Install docker ce
+  command: sudo apt-get install docker-ce
+
+#http://docs.ansible.com/ansible/latest/service_module.html
+- name: Start docker service
+  service:
+   name: docker
+   state: restarted
+
+#curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+#chmod +x /usr/local/bin/docker-compose
+
+- name: Get docker compose
+  shell: sudo curl -L https://github.com/docker/compose/releases/download/1.14.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+
+- name: Make docker-compose executable
+  shell: chmod +x /usr/local/bin/docker-compose
+	  
+- name: run docker
+  command: docker-compose -f "{{ clonepath }}/docker/wordpress/docker-compose.yml" up -d

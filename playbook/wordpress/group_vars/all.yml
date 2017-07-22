@@ -1,0 +1,5 @@
+# Env based parameters are set
+gitrepo: https://github.com/kavinksm/docker-wordpress-monitoring.git
+clonepath: /gitclone/
+branchname : develop
+filename: installdocker.sh
