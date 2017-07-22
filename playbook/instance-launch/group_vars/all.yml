@@ -1,8 +1,18 @@
 # Env based parameters are set
 instance_name: ansible-demo-dev
+lc_name: ansible-demo-launch-config
+asg_name: ansible-demo-asg
 region: us-east-1
-keypair: ec2-one 
+keypair: ec2-one
 image_id: ami-4b133c5d
 type: t2.nano
-security_groups: sg-4726353f
 subnet_id: subnet-7c40ce57
+security_groups:
+    - sg-eb36639a
+    - sg-dc095cad
+asg_subnet_id:
+    - subnet-7c40ce57
+    - subnet-8b0142fc
+asg_az:
+    - us-east-1a
+    - us-east-1b
