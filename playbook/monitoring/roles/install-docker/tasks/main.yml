@@ -31,13 +31,13 @@
   
 - name: Install linux image 
   apt: 
-  name: linux-image-extra-{{ uname.stdout }}
-  state: present
+    name: "linux-image-extra-{{ uname.stdout }}"
+    state: present
 
 - name: Install linux image 
   apt: 
-  name: linux-image-extra-virtual
-  state: present
+    name: linux-image-extra-virtual
+    state: present
     
 - name: Update the machine
   apt: 
@@ -45,7 +45,7 @@
 
 - name: allow apt to use a repository over HTTPS
   apt: 
-    name: {{item}} 
+    name: "{{ item }}"
     state: installed
     with_items:
       - apt-transport-https
