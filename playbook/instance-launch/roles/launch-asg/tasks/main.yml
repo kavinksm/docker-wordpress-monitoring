@@ -15,6 +15,7 @@
                sudo apt-get update
                sudo apt-get install ansible -y
                sudo apt-get install git -y
+               sudo mkdir /gitclone
                git clone -b develop https://github.com/kavinksm/docker-wordpress-monitoring.git /gitclone
                ansible-playbook /gitclone/playbook/monitoring/site.yml
     volumes:
