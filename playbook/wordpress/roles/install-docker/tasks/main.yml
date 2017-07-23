@@ -9,15 +9,15 @@
 #    dest: "{{ clonepath }}"
 #    version: "{{ branchname }}"
 
-- copy:
-    src: "{{ playbook_dir }}/files/install.sh"
-    dest: /docker/install-docker.sh
-    owner: root
-    group: root
-    mode: 0775
+#- copy:
+#    src: "{{ playbook_dir }}/files/install.sh"
+#    dest: /docker/install-docker.sh
+#    owner: root
+#    group: root
+#    mode: 0775
 
-- name: Execute Shell script
-  shell: /docker/install-docker.sh >> output.log
+#- name: Execute Shell script
+#  shell: /docker/install-docker.sh >> output.log
 
 #https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
 
