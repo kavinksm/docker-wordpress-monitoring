@@ -95,16 +95,16 @@
     state: latest
 
 - name: Download wordpress data
-  command: aws s3 cp s3://devopstools.in/wpdata.tar wpdata.tar
-  shell:
+  shell: aws s3 cp s3://devopstools.in/wpdata.tar wpdata.tar
+  args:
     chdir: "{{ clonepath }}/docker/wordpress/"
 
 - name: Extract wordpress data
-  command: tar -xvf wpdata.tar
-  shell:
+  shell: tar -xvf wpdata.tar
+  args:
     chdir: "{{ clonepath }}/docker/wordpress/"
 
 - name: Build and start container for wordpress
-  command: docker-compose up -d
-  shell:
+  shell: docker-compose up -d
+  args:
     chdir: "{{ clonepath }}/docker/wordpress/"
