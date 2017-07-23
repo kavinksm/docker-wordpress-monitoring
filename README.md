@@ -34,7 +34,7 @@ Ansible script is used to create and configure instances which are used to for t
 
 ## [Wordpress](https://wordpress.org/)
 WordPress is a free and open-source content management system (CMS) based on PHP and MySQL. Numerous websites and blogs are created on WordPress platform. 
-Here WordPress is hosted on docker container inside aws instance. Instance is configured using [ansible playbook] (https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/playbook/wordpress) which install docker and docker compose. [Docker compose](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/docker/wordpress) uses the latest wordpress and mysql image from docker hub and build the container with configuration and then start it.
+Here WordPress is hosted on docker container inside aws instance. Instance is configured using [ansible playbook](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/playbook/wordpress) which install docker and docker compose. [Docker compose](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/docker/wordpress) uses the latest wordpress and mysql image from docker hub and build the container with configuration and then start it.
 
 ### WordPress docker compose config
 ```  wordpress:
@@ -57,7 +57,7 @@ Here WordPress is hosted on docker container inside aws instance. Instance is co
 ```
 
 ## Monitoring Applications
-Prometheus along with grafana is configured to monitor docker and show it in the dashboard. Instance is configured using [ansible playbook] (https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/playbook/monitoring) which install docker and docker compose. Applications are launched inside docker container using [docker compose](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/docker/monitoring).
+Prometheus along with grafana is configured to monitor docker and show it in the dashboard. Instance is configured using [ansible playbook](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/playbook/monitoring) which install docker and docker compose. Applications are launched inside docker container using [docker compose](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/docker/monitoring).
 
 ### Prometheus docker compose config
 ``` prometheus:
