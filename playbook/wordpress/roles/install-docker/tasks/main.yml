@@ -20,6 +20,9 @@
 #  shell: /docker/install-docker.sh >> output.log
 
 #https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
+- name : wait for 3 minutes 
+  pause:
+    minutes: 3
 
 - name: Update OS
   apt: 
@@ -95,12 +98,12 @@
     state: latest
 
 - name: Download wordpress data
-  shell: aws s3 cp s3://devopstools.in/wpdata.tar wpdata.tar
+  shell: aws s3 cp s3://devopstools.in/mysqldb.tar mysqldb.tar --region us-east-1
   args:
     chdir: "{{ clonepath }}/docker/wordpress/"
 
 - name: Extract wordpress data
-  shell: tar -xvf wpdata.tar
+  shell: tar -xvf mysqldb.tar
   args:
     chdir: "{{ clonepath }}/docker/wordpress/"
 
