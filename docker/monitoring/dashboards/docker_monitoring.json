@@ -1,7 +1,7 @@
 {
   "__inputs": [
     {
-      "name": "Docker Monitoring",
+      "name": "DS_PROMETHEUS",
       "label": "Prometheus",
       "description": "",
       "type": "datasource",
