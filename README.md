@@ -1,11 +1,11 @@
-#WordPress, Prometheus and Grafana on docker using Ansible
+# WordPress, Prometheus and Grafana on docker using Ansible
 
 Here's is the quick start on wordpress application setup using docker compose and setup on monitoring tools such as prometheus, grafana, cadvisor on docker container using docker compose. AWS instances are used and configured with help of ansible.
 
-##AWS Infra details
+## AWS Infra details
 Ansible script is used to create and configure instances which are used to for the wordpress and monitoring application. [Ansible playbook](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/playbook/instance-launch) is created to launch the instance using auto-scaling group and launch configuration. Two instances are created one for the wordpress setup and another for the monitoring application setup.
 
-###Launch config code snippet :
+### Launch config code snippet :
 ```- name: Create Launch configuration
   ec2_lc:
     name: "{{ lc_name }}"
@@ -16,7 +16,7 @@ Ansible script is used to create and configure instances which are used to for t
     instance_type: "{{ type }}"
 ```
 
-###Autoscaling group code snippet :
+### Autoscaling group code snippet :
 ```- name: Create Auto scaling group
   ec2_asg:
     name: "{{ asg_name }}"
@@ -32,11 +32,11 @@ Ansible script is used to create and configure instances which are used to for t
     desired_capacity: 1
 ```
 
-##[Wordpress](https://wordpress.org/)
+## [Wordpress](https://wordpress.org/)
 WordPress is a free and open-source content management system (CMS) based on PHP and MySQL. Numerous websites and blogs are created on WordPress platform. 
 Here WordPress is hosted on docker container inside aws instance. Instance is configured using [ansible playbook] (https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/playbook/wordpress) which install docker and docker compose. [Docker compose](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/docker/wordpress) uses the latest wordpress and mysql image from docker hub and build the container with configuration and then start it.
 
-###WordPress docker compose config
+### WordPress docker compose config
 ```  wordpress:
     image: wordpress:latest
     ports:
@@ -56,10 +56,10 @@ Here WordPress is hosted on docker container inside aws instance. Instance is co
       - ./wp-data:/docker-entrypoint-initdb.d
 ```
 
-##Monitoring Applications
+## Monitoring Applications
 Prometheus along with grafana is configured to monitor docker and show it in the dashboard. Instance is configured using [ansible playbook] (https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/playbook/monitoring) which install docker and docker compose. Applications are launched inside docker container using [docker compose](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/docker/monitoring).
 
-###Prometheus docker compose config
+### Prometheus docker compose config
 ``` prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -67,7 +67,7 @@ Prometheus along with grafana is configured to monitor docker and show it in the
       - 9090:9090
 ```
 
-###Grafana docker compose config
+### Grafana docker compose config
 ```  grafana:
     image: grafana/grafana
     depends_on:
@@ -76,19 +76,19 @@ Prometheus along with grafana is configured to monitor docker and show it in the
       - 3000:3000
 ```
 
-###[Prometheus](https://prometheus.io)
+### [Prometheus](https://prometheus.io)
 Prometheus is an open-source systems monitoring and alerting toolkit originally built at SoundCloud. Prometheus is used to monitor and collect and store it in time series format. Prometheus configuration found [here](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/docker/monitoring/prometheus)
 
-###[Grafana](https://grafana.com/)
+### [Grafana](https://grafana.com/)
 Grafana is an open source metric analytics & visualization suite. It is most commonly used for visualizing time series data for infrastructure and application analytics. Grafana dashboard found [here](https://github.com/kavinksm/docker-wordpress-monitoring/tree/develop/docker/monitoring/dashboards)
 
-####Steps to configure grafana dashboard
+#### Steps to configure grafana dashboard
 1. Select the datasource type to prometheus
 2. Provide the prometheus URL default - http://localhost:9090
 3. Set the datasource access type to Proxy
 4. Import dashboard from [json](https://github.com/kavinksm/docker-wordpress-monitoring/blob/develop/docker/monitoring/dashboards/docker_monitoring.json) and select the prometheus datasource.
 
-##Sourcecode reference
+## Sourcecode reference
 ```
 +--playbook
 |  +--instance-launch #launch aws ec2 instance via asg and lc
@@ -100,7 +100,7 @@ Grafana is an open source metric analytics & visualization suite. It is most com
 +--README.md
 ```
 
-##Reference
+## Reference
 * http://docs.ansible.com/ansible/latest/list_of_cloud_modules.html
 * http://docs.ansible.com/ansible/latest/list_of_commands_modules.html
 * http://docs.aws.amazon.com/autoscaling/latest/userguide/LaunchConfiguration.html
