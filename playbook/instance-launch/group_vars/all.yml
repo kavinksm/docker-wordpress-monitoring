@@ -7,6 +7,7 @@ keypair: ec2-one
 image_id: ami-4b133c5d
 type: t2.nano
 subnet_id: subnet-7c40ce57
+instance_role: arn:aws:iam::355380910796:instance-profile/wp-s3-read
 security_groups:
     - sg-eb36639a
     - sg-dc095cad

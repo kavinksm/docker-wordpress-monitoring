@@ -88,8 +88,23 @@
 
 - name: Make docker-compose executable
   shell: chmod +x /usr/local/bin/docker-compose
-  
+
+- name: Install AWS CLI
+  apt: 
+    name: awscli
+    state: latest
+
+- name: Download wordpress data
+  command: aws s3 cp s3://devopstools.in/wpdata.tar wpdata.tar
+  shell:
+    chdir: "{{ clonepath }}/docker/wordpress/"
+
+- name: Extract wordpress data
+  command: tar -xvf wpdata.tar
+  shell:
+    chdir: "{{ clonepath }}/docker/wordpress/"
+
 - name: Build and start container for wordpress
   command: docker-compose up -d
-  args:
+  shell:
     chdir: "{{ clonepath }}/docker/wordpress/"

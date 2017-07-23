@@ -2,4 +2,4 @@
   connection: local
   gather_facts: no
   roles:
-    - role: create-ec2
+    - role: launch-asg

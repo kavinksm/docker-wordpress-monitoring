@@ -90,6 +90,6 @@
   shell: chmod +x /usr/local/bin/docker-compose
   
 - name: Build and start container for Monitoring applications
-  command: docker-compose up -d
+  shell: docker-compose up -d
   args:
     chdir: "{{ clonepath }}/docker/monitoring/"
