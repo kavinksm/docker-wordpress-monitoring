@@ -91,5 +91,5 @@
   
 - name: Build and start container for Monitoring applications
   command: docker-compose up -d
-   args:
+  args:
     chdir: "{{ clonepath }}/docker/monitoring/"
