@@ -27,14 +27,14 @@
 
 - name: Get kernel release
   shell: uname -r
-  register: uname
+  register: osversion
   
-- name: Install linux image 
+- name: Install linux-image-extra-3.13.0-121-generic
   apt: 
     name: linux-image-extra-3.13.0-121-generic
     state: present
 
-- name: Install linux image 
+- name: Install linux-image-extra-virtual 
   apt: 
     name: linux-image-extra-virtual
     state: present
@@ -43,7 +43,7 @@
   apt: 
     update_cache: yes
 
-- name: allow apt to use a repository over HTTPS
+- name: Allow apt to use a repository over HTTPS
   apt: 
     name: "{{ item }}"
     state: installed
@@ -54,7 +54,7 @@
       - software-properties-common
 
 - name: Add the gpg key
-  command: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
 - name: Check gpg key
   command: sudo apt-key fingerprint 0EBFCD88
@@ -67,8 +67,12 @@
   apt: 
     update_cache: yes
 
-- name: Install docker ce
-  command: sudo apt-get install docker-ce -y
+- name: Install docker CE
+  apt: 
+    name: docker-ce
+    state: latest
+#- name: Install docker CE
+#  command: sudo apt-get install docker-ce -y
 
 #http://docs.ansible.com/ansible/latest/service_module.html
 - name: Start docker service
@@ -85,5 +89,7 @@
 - name: Make docker-compose executable
   shell: chmod +x /usr/local/bin/docker-compose
   
-- name: run docker
-  command: docker-compose -f "{{ clonepath }}/docker/monitoring/docker-compose.yml" up -d
+- name: Build and start container for Monitoring applications
+  command: docker-compose up -d
+   args:
+    chdir: "{{ clonepath }}/docker/monitoring/"

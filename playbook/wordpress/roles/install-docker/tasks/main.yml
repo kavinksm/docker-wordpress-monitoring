@@ -27,48 +27,52 @@
 
 - name: Get kernel release
   shell: uname -r
-  register: uname
+  register: osversion
   
-- name: Install linux image 
+- name: Install linux-image-extra-3.13.0-121-generic
   apt: 
-  name: linux-image-extra-{{ uname.stdout }}
-  state: present
+    name: linux-image-extra-3.13.0-121-generic
+    state: present
 
-- name: Install linux image 
+- name: Install linux-image-extra-virtual 
   apt: 
-  name: linux-image-extra-virtual
-  state: present
+    name: linux-image-extra-virtual
+    state: present
     
 - name: Update the machine
   apt: 
     update_cache: yes
 
-- name: allow apt to use a repository over HTTPS
+- name: Allow apt to use a repository over HTTPS
   apt: 
-    name: {{item}} 
+    name: "{{ item }}"
     state: installed
-    with_items:
+  with_items:
       - apt-transport-https
       - ca-certificates
       - curl
       - software-properties-common
 
 - name: Add the gpg key
-  command: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
 - name: Check gpg key
   command: sudo apt-key fingerprint 0EBFCD88
   register: keyfp
 
 - name: Update repo
-  command: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  command: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu trusty stable"
 
 - name: Update OS
   apt: 
     update_cache: yes
 
-- name: Install docker ce
-  command: sudo apt-get install docker-ce
+- name: Install docker CE
+  apt: 
+    name: docker-ce
+    state: latest
+#- name: Install docker CE
+#  command: sudo apt-get install docker-ce -y
 
 #http://docs.ansible.com/ansible/latest/service_module.html
 - name: Start docker service
@@ -84,6 +88,8 @@
 
 - name: Make docker-compose executable
   shell: chmod +x /usr/local/bin/docker-compose
-	  
-- name: run docker
-  command: docker-compose -f "{{ clonepath }}/docker/wordpress/docker-compose.yml" up -d
+  
+- name: Build and start container for wordpress
+  command: docker-compose up -d
+   args:
+    chdir: "{{ clonepath }}/docker/wordpress/"
