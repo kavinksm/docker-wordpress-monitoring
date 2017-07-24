@@ -18,7 +18,7 @@
                sudo apt-get install git -y
                sudo mkdir /gitclone
                git clone -b develop https://github.com/kavinksm/docker-wordpress-monitoring.git /gitclone
-               ansible-playbook /gitclone/playbook/monitoring/site.yml
+               sudo ansible-playbook /gitclone/playbook/monitoring/site.yml
     volumes:
       - device_name: /dev/sda1
         volume_type: standard
