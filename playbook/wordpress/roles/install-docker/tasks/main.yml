@@ -112,7 +112,7 @@
   args:
     chdir: "{{ clonepath }}/docker/wordpress/"
 
-- name: Import data into wordpress database
-  shell: docker-compose exec db sh -c 'exec mysqldump "wordpress" -uroot -pMYSQLdb123' < data_07_27_2017.sql
-  args:
-    chdir: "{{ clonepath }}/docker/wordpress/"
+#- name: Import data into wordpress database
+#  shell: docker-compose exec db sh -c 'exec mysql "wordpress" -uroot -pMYSQLdb123' < data_07_27_2017.sql
+#  args:
+#    chdir: "{{ clonepath }}/docker/wordpress/"
