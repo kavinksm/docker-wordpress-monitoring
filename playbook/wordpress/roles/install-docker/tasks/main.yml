@@ -98,16 +98,21 @@
     state: latest
 
 - name: Download wordpress data
-  shell: aws s3 cp s3://devopstools.in/mysqldb.tar mysqldb.tar --region us-east-1
+  shell: aws s3 cp s3://devopstools.data/data_07_27_2017.sql.gz data_07_27_2017.sql.gz --region us-east-1
   args:
     chdir: "{{ clonepath }}/docker/wordpress/"
 
-- name: Extract wordpress data
-  shell: tar -xvf mysqldb.tar
+- name: gunzip wordpress data
+  shell: gunzip data_07_27_2017.sql.gz
   args:
     chdir: "{{ clonepath }}/docker/wordpress/"
 
 - name: Build and start container for wordpress
   shell: docker-compose up -d
+  args:
+    chdir: "{{ clonepath }}/docker/wordpress/"
+
+- name: Import data into wordpress database
+  shell: docker-compose exec db sh -c 'exec mysqldump "wordpress" -uroot -pMYSQLdb123' < data_07_27_2017.sql
   args:
     chdir: "{{ clonepath }}/docker/wordpress/"
