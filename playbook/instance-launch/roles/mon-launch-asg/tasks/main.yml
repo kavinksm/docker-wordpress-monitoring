@@ -1,6 +1,6 @@
 - name: Create Launch configuration
   ec2_lc:
-    name: "{{ lc_name }}"
+    name: "{{ lc_name }}-mon-app"
     image_id: "{{ image_id }}"
     key_name: "{{ keypair }}"
     region: "{{ region }}"
@@ -27,8 +27,8 @@
 
 - name: Create Auto scaling group
   ec2_asg:
-    name: "{{ asg_name }}"
-    launch_config_name: "{{ lc_name }}"
+    name: "{{ asg_name }}-mon-app"
+    launch_config_name: "{{ lc_name }}-mon-app"
     region: "{{ region }}"
     vpc_zone_identifier: "{{ asg_subnet_id }}"
     availability_zones: "{{ asg_az }}"

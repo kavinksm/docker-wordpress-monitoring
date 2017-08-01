@@ -1,28 +1,7 @@
-#- name: Install git
-#  apt:
-#    name: git
-#    state: latest
-
-#- name: clone git repository
-#  git:
-#    repo: "{{ gitrepo }}"
-#    dest: "{{ clonepath }}"
-#    version: "{{ branchname }}"
-
-#- copy:
-#    src: "{{ playbook_dir }}/files/install.sh"
-#    dest: /docker/install-docker.sh
-#    owner: root
-#    group: root
-#    mode: 0775
-
-#- name: Execute Shell script
-#  shell: /docker/install-docker.sh >> output.log
-
-#https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
-- name : wait for 3 minutes 
-  pause:
-    minutes: 3
+#To install docker and it launch wordpress application
+#- name : wait for 3 minutes 
+#  pause:
+#    minutes: 3
 
 - name: Update OS
   apt: 
